@@ -24,7 +24,7 @@ Kwork Telegram Notifier is a Python script designed to periodically fetch new pr
 
    ```shell
    git clone https://github.com/hoosnick/kwork-projects-parser.git
-   cd kwork-telegram-notifier
+   cd kwork-projects-parser
    ```
 
 2. Install the required dependencies using pip:
