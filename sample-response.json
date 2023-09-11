@@ -1,0 +1,345 @@
+{
+  "success": true,
+  "response": [
+    {
+      "id": 2186621,
+      "user_id": 11220300,
+      "username": "brostkz",
+      "profile_picture": "https://cdn-edge.kwork.ru/files/avatar/big/noprofilepicture.gif",
+      "price": 1000,
+      "title": "Битрикс24 не запускается.",
+      "description": "посмотреть ошибку microinvest.kz - попробовать открыть - ошибку покажет<br>предположительно не стартует MySQL<br>предполжительно из за переполнения раздела boot<br>доступ по SSH есть, но через мой комп<br>сервер лежит в локалке и снаружи по SSH Доступ не открывали",
+      "offers": 1,
+      "time_left": 86385,
+      "parent_category_id": 11,
+      "category_id": 38,
+      "date_confirm": 1694450000,
+      "category_base_price": 500,
+      "user_projects_count": 2,
+      "user_hired_percent": 100,
+      "achievements_list": [
+        {
+          "id": 15,
+          "name": "Опытный покупатель",
+          "description": "Сделано более 20 покупок",
+          "image_url": "https://cdn-edge.kwork.ru/images/badge/15s.png"
+        }
+      ],
+      "is_viewed": false,
+      "already_work": 0,
+      "allow_higher_price": true,
+      "possible_price_limit": 3000
+    },
+    {
+      "id": 2186680,
+      "user_id": 15801001,
+      "username": "zabrodin132",
+      "profile_picture": "https://cdn-edge.kwork.ru/files/avatar/big/noprofilepicture.gif",
+      "price": 5000,
+      "title": "Правки и доработки на сайте  Wordpress",
+      "description": "Нужно внести правки на сайте wordpress <br>Нужно сделать правки в 1 и 2 этапе.<br>Файл с правками тут https://docs.google.com/document/d/1cdzUTD03VuQD5-V_j2Uw8zTp4zE4Pn2mTqptuWYbdFY/edit?usp=sharing ",
+      "offers": 1,
+      "time_left": 172519,
+      "parent_category_id": 11,
+      "category_id": 38,
+      "date_confirm": 1694451815,
+      "category_base_price": 500,
+      "user_projects_count": 1,
+      "user_hired_percent": 0,
+      "achievements_list": [],
+      "is_viewed": false,
+      "already_work": 0,
+      "allow_higher_price": true,
+      "possible_price_limit": 15000
+    },
+    {
+      "id": 2186679,
+      "user_id": 59753,
+      "username": "Bromo-Semeru",
+      "profile_picture": "https://cdn-edge.kwork.ru/files/avatar/big/02/59753-3.jpg",
+      "price": 1000,
+      "title": "Нужен шаблон страницы в редакторе Веббилдер",
+      "description": "Нужен шаблон страницы в  редакторе Веббилдер, желательно для 18й версии.( если не знаете,что это такое, то задание не для вас)<br>Суть : текстовое поле формы для проверки ответа на вопрос. Скрипт мне сделали, но я не могу сам встроить его в веббилдер. получается криво. ( там ведь просто в коде нельзя делать, насколько я понимаю)<br>Нужно разместить форму внизу страницы так, чтобы я смог в дальнейшем создавать дубли страницы для разных вопросов.",
+      "offers": 0,
+      "time_left": 85793,
+      "parent_category_id": 11,
+      "category_id": 38,
+      "date_confirm": 1694451489,
+      "category_base_price": 500,
+      "user_projects_count": 124,
+      "user_hired_percent": 57,
+      "achievements_list": [
+        {
+          "id": 16,
+          "name": "Мощный покупатель",
+          "description": "Сделано более 50 покупок",
+          "image_url": "https://cdn-edge.kwork.ru/images/badge/16s.png"
+        }
+      ],
+      "is_viewed": false,
+      "already_work": 0,
+      "allow_higher_price": false,
+      "possible_price_limit": 1000
+    },
+    {
+      "id": 2186657,
+      "user_id": 3934145,
+      "username": "ppman1981",
+      "profile_picture": "https://cdn-edge.kwork.ru/files/avatar/big/33/3934145-3.jpg",
+      "price": 30000,
+      "title": "Создать нейросеть",
+      "description": "Создать нейросеть, меняющую цифры и надписи на фото на нужные.<br>В принципе все изложено в заголовке.<br>Отмечаем область на фото, вводим что должно быть в результате, нейросеть меняет на нужное.<br>Понимаю что это непросто и может стоить немалых денег, поэтому цену ставлю пока очень приблизительную.<br>В случае заказа сформирую более подробное ТЗ.<br>Скорее всего нужно будет чтобы это все работало через веб.",
+      "offers": 0,
+      "time_left": 171424,
+      "parent_category_id": 11,
+      "category_id": 41,
+      "date_confirm": 1694450720,
+      "category_base_price": 500,
+      "user_projects_count": 31,
+      "user_hired_percent": 82,
+      "achievements_list": [
+        {
+          "id": 14,
+          "name": "Освоившийся покупатель",
+          "description": "Сделано более 7 покупок",
+          "image_url": "https://cdn-edge.kwork.ru/images/badge/14s.png"
+        }
+      ],
+      "is_viewed": false,
+      "already_work": 0,
+      "allow_higher_price": true,
+      "possible_price_limit": 90000
+    },
+    {
+      "id": 2186628,
+      "user_id": 13610215,
+      "username": "Valerie10",
+      "profile_picture": "https://cdn-edge.kwork.ru/files/avatar/big/noprofilepicture.gif",
+      "price": 500,
+      "title": "Нужен VPN для арбитража",
+      "description": "Нужен vpn для арбитража, что бы не были заезженные ip адреса и хорошо работал без тормозов, буду рад сотрудничеству ",
+      "offers": 1,
+      "time_left": 85569,
+      "parent_category_id": 11,
+      "category_id": 255,
+      "date_confirm": 1694451265,
+      "category_base_price": 500,
+      "user_projects_count": 7,
+      "user_hired_percent": 0,
+      "achievements_list": [],
+      "is_viewed": false,
+      "already_work": 0,
+      "allow_higher_price": true,
+      "possible_price_limit": 1500
+    },
+    {
+      "id": 2186587,
+      "user_id": 1660009,
+      "username": "Art_29",
+      "profile_picture": "https://cdn-edge.kwork.ru/files/avatar/big/23/1660009-14.jpg",
+      "price": 1500,
+      "title": "Проблема вывода таблиц  PHP word",
+      "description": "На сайте генерируются документы c таблицами через phpword. <br>В бесплатных пакетах типа libre office файлы открываются без проблем. <br>В MS office 2007 при открытии текст в таблицах отображается зеркально. <br>В office 2010 текст отображается корректно, но при открытии документов выскакивает куча ошибок и нет возможности редактировать файл, т.к. он открывается только в безопасном режиме.<br>Пример файла во вложении. <br>Если знаете, как решить, предлагайте стоимость и сроки",
+      "offers": 1,
+      "time_left": 82113,
+      "parent_category_id": 11,
+      "category_id": 38,
+      "date_confirm": 1694447809,
+      "category_base_price": 500,
+      "user_projects_count": 26,
+      "user_hired_percent": 82,
+      "achievements_list": [
+        {
+          "id": 15,
+          "name": "Опытный покупатель",
+          "description": "Сделано более 20 покупок",
+          "image_url": "https://cdn-edge.kwork.ru/images/badge/15s.png"
+        }
+      ],
+      "is_viewed": false,
+      "already_work": 0,
+      "allow_higher_price": true,
+      "possible_price_limit": 4500
+    },
+    {
+      "id": 2186099,
+      "user_id": 1119333,
+      "username": "UNKNOWN-SILENCE",
+      "profile_picture": "https://cdn-edge.kwork.ru/files/avatar/big/noprofilepicture.gif",
+      "price": 2000,
+      "title": "Настроить синхронизацию 1С битрикс с 1С",
+      "description": "Настроить синхронизацию 1С битрикс с 1С<br>Товары (фото, описание, название цены)<br>Группы цен<br>Заказы<br>Протестировать совместно с нашим программистом 1С. Запустить. <br>Битрикс Бизнес версия",
+      "offers": 2,
+      "time_left": 62508,
+      "parent_category_id": 11,
+      "category_id": 38,
+      "date_confirm": 1694428204,
+      "category_base_price": 500,
+      "user_projects_count": 25,
+      "user_hired_percent": 86,
+      "achievements_list": [
+        {
+          "id": 14,
+          "name": "Освоившийся покупатель",
+          "description": "Сделано более 7 покупок",
+          "image_url": "https://cdn-edge.kwork.ru/images/badge/14s.png"
+        },
+        {
+          "id": 18,
+          "name": "Суперпокупатель",
+          "description": "Сделал не менее 12 покупок за последние 3 месяца.",
+          "image_url": "https://cdn-edge.kwork.ru/images/badge/18s.png"
+        }
+      ],
+      "is_viewed": false,
+      "already_work": 0,
+      "allow_higher_price": false,
+      "possible_price_limit": 2000
+    },
+    {
+      "id": 2186667,
+      "user_id": 5502706,
+      "username": "NadenoK",
+      "profile_picture": "https://cdn-edge.kwork.ru/files/avatar/big/11/5502706-1.jpg",
+      "price": 500,
+      "title": "Установить на mac stable diffusion",
+      "description": "Установить на mac stable diffusion. <br>Желательно, чтобы у вас уже был опыт такой установки, чтобы вы знали что делать.<br>Спасибо ",
+      "offers": 0,
+      "time_left": 85289,
+      "parent_category_id": 11,
+      "category_id": 81,
+      "date_confirm": 1694450985,
+      "category_base_price": 500,
+      "user_projects_count": 9,
+      "user_hired_percent": 20,
+      "achievements_list": [
+        {
+          "id": 14,
+          "name": "Освоившийся покупатель",
+          "description": "Сделано более 7 покупок",
+          "image_url": "https://cdn-edge.kwork.ru/images/badge/14s.png"
+        }
+      ],
+      "is_viewed": false,
+      "already_work": 0,
+      "allow_higher_price": true,
+      "possible_price_limit": 1500
+    },
+    {
+      "id": 2186663,
+      "user_id": 13640346,
+      "username": "toniserov78899",
+      "profile_picture": "https://cdn-edge.kwork.ru/files/avatar/big/01/13640346-1.jpg",
+      "price": 1500,
+      "title": "Телеграм-бот, берущий посты из других каналов в мои",
+      "description": "Нужен бот телеграм на Python, который будет копировать посты (с прикрепленными изображениями) из других каналов и публиковать их в моих каналах (не репост, а публикация от имени канала). Создается связка откуда-КУДА. &laquo;Откуда&raquo; может быть выбрано несколько каналов (я в них НЕ являюсь администратором), и раз в минуту парсятся новые посты. Если найден новый пост, он публикуется в моем канале. Это одна связка. Таких связок, где несколько каналов, из которых берутся посты, и один мой канал, в котором они публикуются, может быть много. Следовательно, в меню бота должны быть опции просмотра имеющихся связок, их редактирования, создания новых связок. Дополнительно нужна опция копирования N числа последних постов из канала-донора в мой канал с интервалом 5 минут между публикациями",
+      "offers": 1,
+      "time_left": 85192,
+      "parent_category_id": 11,
+      "category_id": 41,
+      "date_confirm": 1694450888,
+      "category_base_price": 500,
+      "user_projects_count": 2,
+      "user_hired_percent": 100,
+      "achievements_list": [],
+      "is_viewed": false,
+      "already_work": 0,
+      "allow_higher_price": true,
+      "possible_price_limit": 4500
+    },
+    {
+      "id": 2186655,
+      "user_id": 3822721,
+      "username": "eugenetsaplin",
+      "profile_picture": "https://cdn-edge.kwork.ru/files/avatar/big/noprofilepicture.gif",
+      "price": 50000,
+      "title": "Клон сайта Trends24.in",
+      "description": "Добрый день, коллеги,<br>Стоит задача сделать аналогичный дашборд как на Trends24.in<br>### **Project Overview: Trends24.in**<br>#### **Цель:**<br>Предоставить пользователям актуальную информацию о популярных темах в Twitter за последние 24 часа в более чем 400 местоположениях по всему миру.<br>#### **Основные функции:**<br>1. **Отслеживание трендов в реальном времени:** <br>   - Отображение популярных тем в Twitter.<br>   - Хронология трендов по часам.<br>   - Облако тегов для визуализации популярных тем.<br>2. **Глобальное покрытие:** <br>   - Покрытие более 400 местоположений.<br>   - Возможность узнать, что сейчас популярно в разных частях мира.<br>3. **Информационные статьи:** <br>   - Возможность публиковать статьи в блог<br>4. **Взаимодействие с пользователями:**<br>   - Регистрация на рассылку новостей.<br>5. **Реклама:** <br>   - Монетизация через рекламные блоки.<br>#### **Технические аспекты:**<br>1. **Сбор данных через ScrapeStorm:** <br>   - Интеграция с API https://www.scrapestorm.net/ для получения данных о трендах из Twitter.<br>   - Использование продвинутых методов извлечения данных ScrapeStorm для точного и актуального сбора информации.<br>2. **Backend (Бэкенд):**<br>(обсуждается с исполнителем)<br>3. **Frontend (Фронтенд):**<br>(обсуждается с исполнителем)<br>В Заявке прошу предоставить информацию о предполагаемой технологии программирования.",
+      "offers": 0,
+      "time_left": 257815,
+      "parent_category_id": 11,
+      "category_id": 37,
+      "date_confirm": 1694450711,
+      "category_base_price": 500,
+      "user_projects_count": 63,
+      "user_hired_percent": 73,
+      "achievements_list": [
+        {
+          "id": 16,
+          "name": "Мощный покупатель",
+          "description": "Сделано более 50 покупок",
+          "image_url": "https://cdn-edge.kwork.ru/images/badge/16s.png"
+        }
+      ],
+      "is_viewed": false,
+      "already_work": 0,
+      "allow_higher_price": true,
+      "possible_price_limit": 150000
+    },
+    {
+      "id": 2186640,
+      "user_id": 208506,
+      "username": "lonkwork",
+      "profile_picture": "https://cdn-edge.kwork.ru/files/avatar/big/32/208506-1.jpg",
+      "price": 10000,
+      "title": "Доработки сайта на Joomla",
+      "description": "Описание задач в виде ТЗ с текстом и картинками в формате GoogleDoc:<br>https://docs.google.com/document/d/1FdeBwLbch4uvY-Dc53eh79P6N10LUoq0y-hCFEVVedw/edit?usp=sharing",
+      "offers": 1,
+      "time_left": 171070,
+      "parent_category_id": 11,
+      "category_id": 38,
+      "date_confirm": 1694450366,
+      "category_base_price": 500,
+      "user_projects_count": 4,
+      "user_hired_percent": 100,
+      "achievements_list": [
+        {
+          "id": 15,
+          "name": "Опытный покупатель",
+          "description": "Сделано более 20 покупок",
+          "image_url": "https://cdn-edge.kwork.ru/images/badge/15s.png"
+        }
+      ],
+      "is_viewed": false,
+      "already_work": 0,
+      "allow_higher_price": true,
+      "possible_price_limit": 30000
+    },
+    {
+      "id": 2186637,
+      "user_id": 482336,
+      "username": "lopopo",
+      "profile_picture": "https://cdn-edge.kwork.ru/files/avatar/big/noprofilepicture.gif",
+      "price": 2000,
+      "title": "Ошибка Page Expired 419 laravel",
+      "description": "У нас ошибка которая возникает на сайте http://spectcrm.com/admin<br>При заходе на сайт, а затем закрытии вкладки<br>После чего заходим опять, и затем происходит <br>Нам давали такой ответ:<br>&quot;По ошибке 419 Page Expired это нормальная ситуация. Для защиты используются токены, которые передаются и проверяются сервером один раз, при повторной отправке одного токена получается такая ошибка. Если между посещениями страницы прошло много времени, то страницу нужно обновить. Это касается не только данного сайта, но и всех остальных.&quot;",
+      "offers": 0,
+      "time_left": 84647,
+      "parent_category_id": 11,
+      "category_id": 38,
+      "date_confirm": 1694450343,
+      "category_base_price": 500,
+      "user_projects_count": 139,
+      "user_hired_percent": 17,
+      "achievements_list": [
+        {
+          "id": 14,
+          "name": "Освоившийся покупатель",
+          "description": "Сделано более 7 покупок",
+          "image_url": "https://cdn-edge.kwork.ru/images/badge/14s.png"
+        }
+      ],
+      "is_viewed": false,
+      "already_work": 0,
+      "allow_higher_price": true,
+      "possible_price_limit": 6000
+    }
+  ],
+  "connects": {
+    "all_connects": 20,
+    "active_connects": 20,
+    "update_time": 1695243600
+  },
+  "paging": { "page": 1, "total": 403, "limit": 12, "pages": 34 },
+  "fcmTokenLost": true
+}
