@@ -6,3 +6,5 @@ venv/
 .env
 
 test.py
+
+kwork-parser.service
