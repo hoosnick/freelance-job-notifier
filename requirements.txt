@@ -1,0 +1,6 @@
+kwork
+apscheduler
+aiohttp[speedups]
+python-dotenv
+aiosqlite
+selectolax
