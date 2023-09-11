@@ -54,6 +54,10 @@ Kwork Telegram Notifier is a Python script designed to periodically fetch new pr
 
 The script fetches new projects from [Kwork.ru](kwork.ru) at regular intervals (default: every 10 minutes) based on specified categories. When a new project is found, it sends a notification to the Telegram group with project details.
 
+## Thanks
+
+Thanks a lot [@kesha1225](https://github.com/kesha1225) for [pykwork](https://github.com/kesha1225/pykwork)! Your work is greatly appreciated!
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
