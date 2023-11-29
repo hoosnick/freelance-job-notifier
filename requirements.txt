@@ -4,3 +4,4 @@ aiohttp[speedups]
 python-dotenv
 aiosqlite
 selectolax
+feedparser
