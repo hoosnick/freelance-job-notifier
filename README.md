@@ -1,6 +1,6 @@
-# Kwork Telegram Notifier
+# Freelance Jobs Telegram Notifier
 
-Kwork Telegram Notifier is a Python script designed to periodically fetch new projects from popular freelance platforms (at the moment: [Kwork.ru](https://kwork.ru) and [Upwork.com](https://upwork.com)) and notify a Telegram group about them. It uses the API, RSS Feed to retrieve project details and sends notifications to a specified Telegram group.
+Freelance Jobs Notifier is a Python script designed to periodically fetch new projects from popular freelance platforms (at the moment: [Kwork.ru](https://kwork.ru) and [Upwork.com](https://upwork.com)) and notify a Telegram group about them. It uses the API, RSS Feed to retrieve project details and sends notifications to a specified Telegram group.
 
 ## Features
 
