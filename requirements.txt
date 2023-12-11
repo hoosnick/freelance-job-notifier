@@ -1,8 +1,8 @@
 kwork
 apscheduler
-aiohttp[speedups]
 python-dotenv
 aiosqlite
 selectolax
 feedparser
-aiohttp>=3.9.0 # not directly required, pinned by Snyk to avoid a vulnerability
+aiohttp>=3.9.0
+aiohttp[speedups]
