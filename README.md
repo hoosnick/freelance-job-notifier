@@ -24,8 +24,8 @@ Freelance Jobs Notifier is a Python script designed to periodically fetch new pr
 1. Clone this repository:
 
    ```shell
-   git clone https://github.com/hoosnick/freelance-job-parser.git
-   cd freelance-job-parser
+   git clone https://github.com/hoosnick/freelance-job-notifier.git
+   cd freelance-job-notifier
    ```
 
 2. Install the required dependencies using pip:
