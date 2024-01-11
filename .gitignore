@@ -8,3 +8,5 @@ venv/
 test.py
 
 kwork-parser.service
+
+*.db

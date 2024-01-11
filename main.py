@@ -42,6 +42,16 @@ TEMPLATES = {
 }
 
 
+async def create_tables() -> None:
+    db = await aiosqlite.connect(database='projects.db')
+    await db.execute('CREATE TABLE IF NOT EXISTS "up_jobs" ("job_id" TEXT)')
+    await db.execute('CREATE TABLE IF NOT EXISTS "kw_projects" ("project_id" INTEGER NOT NULL)')
+    await db.commit()
+    await db.close()
+
+    print('[INFO] Tables are ready...')
+
+
 async def check_existence(data: dict) -> bool:
     q_select = "SELECT EXISTS(SELECT 1 FROM {table} WHERE {field} = ?)"
     q_insert = "INSERT INTO {table} ({field}) VALUES (?)"
@@ -119,16 +129,18 @@ async def get_upwork_jobs():
 
     async with aiohttp.ClientSession() as session:
         async with session.get(url, params=params) as response:
-            if response.status != 200: return
+            if response.status != 200:
+                return
 
             content = await response.text()
 
         feeds = feedparser.parse(content)
         for feed in feeds.entries:
             already_exist = await check_existence(
-                data={'table': 'jobs', 'field': 'job_id', 'id': feed.link}
+                data={'table': 'up_jobs', 'field': 'job_id', 'id': feed.link}
             )
-            if already_exist: continue
+            if already_exist:
+                continue
 
             data = parse_metadata(
                 htmlp(feed.description).text(separator='', strip=False)
@@ -150,7 +162,7 @@ async def get_upwork_jobs():
                     }]]}
                 )
             }
-            
+
             await send_project(session, tg_data)
             await asyncio.sleep(random.choice([1, 2, 3]))
 
@@ -174,7 +186,8 @@ async def get_kwork_projects():
     )
 
     success = raw_projects["success"]
-    if not success: return await kwork.close()
+    if not success:
+        return await kwork.close()
 
     # first page projects
     projects = [Project(**pr) for pr in raw_projects["response"]]
@@ -194,9 +207,10 @@ async def get_kwork_projects():
 
     for project in projects:
         already_exist = await check_existence(
-            {'table': 'projects', 'field': 'project_id', 'id': project.id}
+            {'table': 'kw_projects', 'field': 'project_id', 'id': project.id}
         )
-        if already_exist: continue
+        if already_exist:
+            continue
 
         desc = htmlp(project.description).text(separator='\n', strip=True)
 
@@ -221,4 +235,6 @@ async def get_kwork_projects():
 
 if __name__ == '__main__':
     scheduler.start()
-    asyncio.get_event_loop().run_forever()
+    loop = asyncio.get_event_loop()
+    loop.create_task(create_tables())
+    loop.run_forever()
