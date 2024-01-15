@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta name="format-detection" content="telephone=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="MobileOptimized" content="176" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="robots" content="noindex,nofollow" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script src="https://telegram.org/js/telegram-web-app.js?1"></script>
+    <script>
+      function setThemeClass() {
+        document.documentElement.className = Telegram.WebApp.colorScheme;
+      }
+
+      Telegram.WebApp.onEvent("themeChanged", setThemeClass);
+      setThemeClass();
+    </script>
+
+    <style>
+      body {
+        font-family: "Ubuntu", sans-serif;
+        background-color: var(--tg-theme-bg-color, #ffffff);
+        color: var(--tg-theme-text-color, #222222);
+        font-size: 16px;
+        margin: 0;
+        padding: 0;
+        color-scheme: var(--tg-color-scheme);
+      }
+
+      a {
+        color: var(--tg-theme-link-color, #2678b6);
+      }
+
+      #generateBtn {
+        position: fixed;
+        display: block;
+        width: 100%;
+        font-size: 14px;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        background-color: var(--tg-theme-button-color, #50a8eb);
+        color: var(--tg-theme-button-text-color, #ffffff);
+        cursor: pointer;
+        z-index: 9999;
+      }
+      #generateBtn[disabled] {
+        /*opacity: 0.6;*/
+        cursor: auto;
+        pointer-events: none;
+      }
+
+      button.close_btn {
+        /*position: fixed;*/
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 0;
+        margin: 0;
+        padding: 16px 20px;
+        text-transform: uppercase;
+      }
+
+      #offerSection {
+        padding-top: 50px;
+        padding-right: 10px;
+        padding-left: 10px;
+        margin-bottom: 50px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: center;
+        align-items: flex-start;
+      }
+
+      .card {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 300px;
+        max-width: 100%;
+        transition: transform 0.3s ease-in-out;
+        position: relative;
+      }
+
+      .largeText {
+        margin-bottom: 10px;
+        font-size: 11px;
+        line-height: 1.2;
+        color: #000000;
+        word-break: break-all;
+        word-break: break-word;
+        white-space: pre-wrap;
+        text-align: left;
+      }
+
+      .index {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: var(--tg-theme-button-color, #50a8eb);
+        color: #fff;
+        padding: 2px;
+        border-radius: 2px;
+        font-size: 12px;
+      }
+
+      .copyButton {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        padding: 5px;
+        background: var(--tg-theme-button-color, #50a8eb);
+        color: #fff;
+        font-size: 10px;
+        border: none;
+        outline: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .offerBy {
+        position: absolute;
+        bottom: 10px;
+        right: 40px;
+        padding: 5px;
+        background: var(--tg-theme-button-color, #50a8eb);
+        color: #fff;
+        font-size: 10px;
+        border: none;
+        outline: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      #loadingText {
+        text-align: center;
+        color: var(--tg-theme-button-color, #50a8eb);
+      }
+
+      #fixed_wrap {
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        transform: translateY(100vh);
+      }
+    </style>
+  </head>
+  <body style="visibility: hidden">
+    <button id="generateBtn">Generate</button>
+
+    <div id="offerSection"></div>
+
+    <div id="loadingText"></div>
+
+    <script src="https://webappcontent.telegram.org/js/jquery.min.js"></script>
+    <script>
+      Telegram.WebApp.ready();
+
+      var initData = Telegram.WebApp.initData || "";
+      var initDataUnsafe = Telegram.WebApp.initDataUnsafe || {};
+
+      function getProjectIdFromUrl() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return parseInt(urlParams.get("project")) || null;
+      }
+
+      function getLangFromUrl() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get("lang");
+      }
+
+      function fetchOffers() {
+        const projectId = getProjectIdFromUrl();
+        if (projectId !== null) {
+          $.ajax(`/offers?for=${projectId}`, {
+            type: "GET",
+            success: function (data) {
+              if (data.ok) {
+                displayOffers(data.offers);
+              } else {
+                showError(data.err);
+              }
+            },
+            error: function () {
+              showError("Error fetching offers.");
+            },
+          });
+        } else {
+          showError("Project ID not found in the URL.");
+        }
+      }
+
+      function generateOffer() {
+        const projectId = getProjectIdFromUrl();
+        const lang = getLangFromUrl();
+
+        if (projectId !== null) {
+          $("#generateBtn").prop("disabled", true).text("Generating...");
+          $("#loadingText").text("Generating...");
+
+          $.ajax(`/generate?for=${projectId}&lang=${lang}`, {
+            type: "POST",
+            data: {
+              _auth: initData,
+            },
+            dataType: "json",
+            success: function (data) {
+              if (data.ok) {
+                addOffer(data);
+              } else {
+                showError(data.err);
+              }
+            },
+            error: function (xhr) {
+              showError("Error generating offer.");
+            },
+            complete: function () {
+              $("#generateBtn").prop("disabled", false).text("Generate");
+              $("#loadingText").text("");
+            },
+          });
+        } else {
+          $("#generateBtn").prop("disabled", false).text("Generate");
+          $("#loadingText").text("");
+          showError("Project ID not found in the URL.");
+        }
+      }
+
+      function displayOffers(offers) {
+        const offerSection = $("#offerSection");
+        offerSection.empty();
+
+        if (offers.length === 0) {
+          showAlert("Oops, no offers found. Let's generate!");
+        } else {
+          offers.forEach((offer, index) => {
+            offerSection.append(
+              `<div class="card">
+                <div class="index">${index + 1}</div>
+                <div class="largeText">${offer.offer}</div>
+                <div class="offerBy">${offer.offer_by}</div>
+                <button class="copyButton" onclick="copyText(${index})">
+                  <i class="fa fa-clone"></i>
+                </button>
+              </div>
+              `
+            );
+          });
+        }
+      }
+
+      function addOffer(offer) {
+        const offerSection = $("#offerSection");
+        const newOfferIndex = offerSection.children().length + 1;
+        const newOffer = $(
+          `<div class="card">
+            <div class="index">${newOfferIndex}</div>
+            <div class="largeText">${offer.response}</div>
+            <div class="offerBy">${offer.offer_by}</div>
+            <button class="copyButton" onclick="copyText(${newOfferIndex})">
+              <i class="fa fa-clone"></i>
+            </button>
+          </div>
+          `
+        );
+        offerSection.append(newOffer);
+
+        $("html, body").animate(
+          {
+            scrollTop: offerSection.height(),
+          },
+          "slow"
+        );
+
+        setTimeout(function () {
+          newOffer.focus();
+        }, 1000);
+      }
+
+      function showError(message) {
+        Telegram.WebApp.showPopup({ title: "Error!", message: message });
+      }
+
+      function showAlert(message) {
+        Telegram.WebApp.showAlert(message);
+      }
+
+      function webviewClose() {
+        Telegram.WebApp.close();
+      }
+
+      function copyText(index) {
+        const textToCopy = $(`.card:nth-child(${index}) .largeText`).text();
+
+        const textarea = document.createElement("textarea");
+        textarea.value = textToCopy;
+
+        textarea.style.position = "absolute";
+        textarea.style.left = "-9999px";
+        document.body.appendChild(textarea);
+
+        textarea.select();
+        document.execCommand("copy");
+
+        document.body.removeChild(textarea);
+        showAlert("Text copied to clipboard!");
+      }
+
+      Telegram.WebApp.onEvent("themeChanged", function () {
+        $("#theme_data").html(
+          JSON.stringify(Telegram.WebApp.themeParams, null, 2)
+        );
+      });
+
+      $("body").css("visibility", "");
+      Telegram.WebApp.MainButton.setText("CLOSE WEBVIEW")
+        .show()
+        .onClick(function () {
+          webviewClose();
+        });
+
+      $(document).ready(function () {
+        fetchOffers();
+
+        $("#generateBtn").click(function () {
+          generateOffer();
+        });
+      });
+    </script>
+  </body>
+</html>

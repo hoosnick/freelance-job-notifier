@@ -1,8 +1,12 @@
-kwork
 apscheduler
-python-dotenv
-aiosqlite
-selectolax
-feedparser
 aiohttp>=3.9.0
 aiohttp[speedups]
+aiogram==3.3.0
+feedparser
+g4f==0.2.0.2
+kwork
+python-dotenv
+pydantic-settings
+piccolo[sqlite]
+piccolo[orjson]
+selectolax
