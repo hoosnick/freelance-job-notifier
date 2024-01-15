@@ -2,6 +2,8 @@
 
 Freelance Jobs Notifier is a Python script designed to periodically fetch new projects from popular freelance platforms (at the moment: [Kwork.ru](https://kwork.ru) and [Upwork.com](https://upwork.com)) and notify a Telegram group about them. It uses the API, RSS Feed to retrieve project details and sends notifications to a specified Telegram group.
 
+https://github.com/hoosnick/freelance-job-notifier/assets/73847672/5dd67ffd-cd27-49c0-8a2a-8bee4c38184e
+
 ---
 
 ## 🍰 Features
