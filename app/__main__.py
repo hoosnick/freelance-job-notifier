@@ -53,10 +53,10 @@ async def on_startup(bot: Bot, base_url: str, scheduler: AsyncIOScheduler, confi
         get_upwork_jobs, 'interval', minutes=15,
         kwargs={'bot': bot, 'config': config}
     )
-    # scheduler.add_job(
-    #     get_kwork_projects, 'interval', minutes=10,
-    #     kwargs={'bot': bot, 'config': config}
-    # )
+    scheduler.add_job(
+        get_kwork_projects, 'interval', minutes=10,
+        kwargs={'bot': bot, 'config': config}
+    )
     scheduler.start()
 
 
