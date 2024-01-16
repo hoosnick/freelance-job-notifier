@@ -4,13 +4,12 @@ import re
 
 import aiohttp
 import feedparser
-from aiogram import Bot
+from aiogram import Bot, html
 from selectolax.lexbor import LexborHTMLParser as htmlp
 
 from app.bot.keyboards import apply_button
 from app.config_reader import Settings
 from app.db.tables import FreelancePlatform, Project
-
 from kwork import Kwork, types
 
 TEMPLATES = {
@@ -95,8 +94,8 @@ async def get_upwork_jobs(bot: Bot, config: Settings):
             await project.save()
 
             text = TEMPLATES.get('UPWORK').format(
-                title=feed.title,
-                description=data['desc'][:3000],
+                title=html.quote(feed.title),
+                description=html.quote(data['desc'][:3000]),
                 budget=data['budget'],
                 hourly_range=data['hourly_range'],
                 category=data['category'],
@@ -177,7 +176,7 @@ async def get_kwork_projects(bot: Bot, config: Settings):
         await kw_project.save()
 
         text = TEMPLATES.get('KWORK').format(
-            project.title, desc[:3000],
+            html.quote(project.title), html.quote(desc[:3000]),
             project.price, project.possible_price_limit
         )
 
