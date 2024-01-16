@@ -1,3 +1,5 @@
+from typing import Dict
+
 import g4f
 
 g4f.debug.logging = False
@@ -20,7 +22,7 @@ PROMPT = {
 }
 
 
-async def generate_offer(project_description: str, lang: str) -> dict[str, bool | str]:
+async def generate_offer(project_description: str, lang: str) -> Dict[str, bool | str]:
     try:
         response = await g4f.ChatCompletion.create_async(
             model="gpt-3.5-turbo",

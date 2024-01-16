@@ -27,7 +27,7 @@ class Settings(BaseSettings):
     tg_group_link: str
     tg_topic_id: int
     tg_admin: int
-    bot_username: str | None = None
+    bot_username: str = 'your_bot'
 
     app_base_url: str
 
