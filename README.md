@@ -71,3 +71,7 @@ https://github.com/hoosnick/freelance-job-notifier/assets/73847672/5dd67ffd-cd27
 ## 📃 License
 
 - This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+<a href="https://www.buymeacoffee.com/hoosnick" target="_blank"><img alt="Buy Me A Coffee" height="41" width="174" src="https://github.com/hoosnick/freelance-job-notifier/assets/73847672/79a76ef6-a9f8-4c26-bd7d-72bc8048eb25"></a>
