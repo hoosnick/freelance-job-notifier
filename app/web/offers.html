@@ -50,36 +50,14 @@
       }
 
       h6 {
-        margin-top: 5px;
         color: #000000;
       }
 
-      #generateBtn {
-        position: relative;
-        display: flex;
-        width: 100%;
-        font-size: 14px;
-        padding: 12px 20px;
-        border: none;
-        border-radius: 4px;
-        background-color: var(--tg-theme-button-color, #50a8eb);
-        color: var(--tg-theme-button-text-color, #ffffff);
-        cursor: pointer;
-        z-index: 9999;
-        align-items: center;
-        justify-content: center;
-      }
-
-      #generateBtn[disabled] {
-        /*opacity: 0.6;*/
-        cursor: auto;
-        pointer-events: none;
-      }
-
-      #generateBtn.sticky {
-        position: fixed;
-        top: 0;
-        width: 100%;
+      h5 {
+        text-align: center;
+        padding: 0;
+        color: var(--tg-theme-text-color);
+        font-size: 16px;
       }
 
       button.close_btn {
@@ -106,7 +84,7 @@
       }
 
       #offerSection {
-        padding-top: 50px;
+        padding-top: 15px;
         padding-right: 10px;
         padding-left: 10px;
         margin-bottom: 50px;
@@ -192,11 +170,6 @@
         cursor: pointer;
       }
 
-      #loadingText {
-        text-align: center;
-        color: var(--tg-theme-button-color, #50a8eb);
-      }
-
       #fixed_wrap {
         position: fixed;
         left: 0;
@@ -209,11 +182,10 @@
   <body style="visibility: hidden">
     <div id="projectDetail"></div>
 
-    <button id="generateBtn">Generate</button>
+    <br><hr>
 
+    <h5>Offers</h5>
     <div id="offerSection"></div>
-
-    <div id="loadingText"></div>
 
     <script src="https://webappcontent.telegram.org/js/jquery.min.js"></script>
     <script>
@@ -279,8 +251,9 @@
         const lang = getLangFromUrl();
 
         if (projectId !== null) {
-          $("#generateBtn").prop("disabled", true).text("Generating...");
-          $("#loadingText").text("Generating...");
+
+          Telegram.WebApp.MainButton.setText("Generating...")
+            .offClick(function () {});
 
           $.ajax(`/generate?for=${projectId}&lang=${lang}`, {
             type: "POST",
@@ -299,13 +272,14 @@
               showError("Error generating offer.");
             },
             complete: function () {
-              $("#generateBtn").prop("disabled", false).text("Generate");
-              $("#loadingText").text("");
+              Telegram.WebApp.MainButton.setText("Generate")
+                .show()
+                .onClick(function () {
+                  generateOffer();
+                });
             },
           });
         } else {
-          $("#generateBtn").prop("disabled", false).text("Generate");
-          $("#loadingText").text("");
           showError("Project ID not found in the URL.");
         }
       }
@@ -316,6 +290,9 @@
 
         if (offers.length === 0) {
           showAlert("Oops, no offers found. Let's generate!");
+          offerSection.append(
+            `<h5>There is no offer yet. Press the "Generate" button to generate one!</h5>`
+          );
         } else {
           offers.forEach((offer, index) => {
             offerSection.append(
@@ -381,10 +358,6 @@
         Telegram.WebApp.showAlert(message);
       }
 
-      function webviewClose() {
-        Telegram.WebApp.close();
-      }
-
       function copyText(index) {
         const textToCopy = $(`.card:nth-child(${index}) .largeText`).text();
 
@@ -409,33 +382,15 @@
       });
 
       $("body").css("visibility", "");
-      Telegram.WebApp.MainButton.setText("CLOSE WEBVIEW")
+      Telegram.WebApp.MainButton.setText("Generate")
         .show()
         .onClick(function () {
-          webviewClose();
+          generateOffer();
         });
 
       $(document).ready(function () {
         fetchProjectDetail();
         fetchOffers();
-
-        window.onscroll = function () { scrollContent() };
-
-        var pdBtn = document.getElementById("projectDetail");
-        var sticky = pdBtn.offsetHeight + 50;
-        var btn = document.getElementById("generateBtn");
-
-        function scrollContent() {
-          if (window.pageYOffset > sticky) {
-            btn.classList.add("sticky");
-          } else {
-            btn.classList.remove("sticky");
-          }
-        }
-
-        $("#generateBtn").click(function () {
-          generateOffer();
-        });
       });
     </script>
   </body>
