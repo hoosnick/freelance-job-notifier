@@ -40,46 +40,21 @@
         color-scheme: var(--tg-color-scheme);
       }
 
+      h6 {
+        padding: 0;
+        margin: 5px 0;
+        color: #000000;
+      }
+
       a {
         color: var(--tg-theme-link-color, #2678b6);
       }
 
-      #generateBtn {
-        position: fixed;
-        display: block;
-        width: 100%;
-        font-size: 14px;
-        padding: 12px 20px;
-        border: none;
-        border-radius: 4px;
-        background-color: var(--tg-theme-button-color, #50a8eb);
-        color: var(--tg-theme-button-text-color, #ffffff);
-        cursor: pointer;
-        z-index: 9999;
-      }
-      #generateBtn[disabled] {
-        /*opacity: 0.6;*/
-        cursor: auto;
-        pointer-events: none;
-      }
-
-      button.close_btn {
-        /*position: fixed;*/
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        border-radius: 0;
-        margin: 0;
-        padding: 16px 20px;
-        text-transform: uppercase;
-      }
-
-      #offerSection {
-        padding-top: 50px;
+      #offerSection,
+      #projectDetail {
         padding-right: 10px;
         padding-left: 10px;
-        margin-bottom: 50px;
+        /*margin-bottom: 50px;*/
         display: flex;
         flex-wrap: wrap;
         gap: 12px;
@@ -98,7 +73,8 @@
         position: relative;
       }
 
-      .largeText {
+      .largeText,
+      .projectDescription {
         margin-bottom: 10px;
         font-size: 11px;
         line-height: 1.2;
@@ -120,12 +96,12 @@
         font-size: 12px;
       }
 
-      .copyButton {
+      .offerBy,
+      .freelancePlatform {
         position: absolute;
         bottom: 10px;
-        right: 10px;
+        right: 40px;
         padding: 5px;
-        background: var(--tg-theme-button-color, #50a8eb);
         color: #fff;
         font-size: 10px;
         border: none;
@@ -135,9 +111,17 @@
       }
 
       .offerBy {
+        background: var(--tg-theme-button-color, #50a8eb);
+      }
+      .freelancePlatform {
+        background: #00a534;
+      }
+
+      .copyButton,
+      .toggleButton {
         position: absolute;
         bottom: 10px;
-        right: 40px;
+        right: 10px;
         padding: 5px;
         background: var(--tg-theme-button-color, #50a8eb);
         color: #fff;
@@ -163,7 +147,9 @@
     </style>
   </head>
   <body style="visibility: hidden">
-    <button id="generateBtn">Generate</button>
+    <div id="projectDetail"></div>
+
+    <br />
 
     <div id="offerSection"></div>
 
@@ -193,7 +179,7 @@
             type: "GET",
             success: function (data) {
               if (data.ok) {
-                displayOffers(data.offers);
+                displayOffers(data);
               } else {
                 showError(data.err);
               }
@@ -212,7 +198,7 @@
         const lang = getLangFromUrl();
 
         if (projectId !== null) {
-          $("#generateBtn").prop("disabled", true).text("Generating...");
+          Telegram.WebApp.MainButton.setText("Generating...").disable();
           $("#loadingText").text("Generating...");
 
           $.ajax(`/generate?for=${projectId}&lang=${lang}`, {
@@ -232,32 +218,44 @@
               showError("Error generating offer.");
             },
             complete: function () {
-              $("#generateBtn").prop("disabled", false).text("Generate");
+              Telegram.WebApp.MainButton.setText("Generate").enable();
               $("#loadingText").text("");
             },
           });
         } else {
-          $("#generateBtn").prop("disabled", false).text("Generate");
           $("#loadingText").text("");
           showError("Project ID not found in the URL.");
         }
       }
 
-      function displayOffers(offers) {
+      function displayOffers(data) {
         const offerSection = $("#offerSection");
         offerSection.empty();
 
-        if (offers.length === 0) {
+        const projectDetail = $("#projectDetail");
+        projectDetail.html(
+          `<div class="card">
+            <h6>${data.project.title}</h6>
+            <div class="projectDescription" style="display: none;">${data.project.description}</div>
+            <div class="freelancePlatform">${data.project.freelance_platform}</div>
+            <button class="toggleButton" onclick="toggleDesc()">
+              <i class="fa fa-plus" aria-hidden="true"></i>
+            </button>
+          </div>
+          `
+        );
+
+        if (data.offers.length === 0) {
           showAlert("Oops, no offers found. Let's generate!");
         } else {
-          offers.forEach((offer, index) => {
+          data.offers.forEach((offer, index) => {
             offerSection.append(
               `<div class="card">
                 <div class="index">${index + 1}</div>
                 <div class="largeText">${offer.offer}</div>
                 <div class="offerBy">${offer.offer_by}</div>
                 <button class="copyButton" onclick="copyText(${index})">
-                  <i class="fa fa-clone"></i>
+                  <i class="fa fa-clone" aria-hidden="true"></i>
                 </button>
               </div>
               `
@@ -302,10 +300,6 @@
         Telegram.WebApp.showAlert(message);
       }
 
-      function webviewClose() {
-        Telegram.WebApp.close();
-      }
-
       function copyText(index) {
         const textToCopy = $(`.card:nth-child(${index}) .largeText`).text();
 
@@ -323,6 +317,15 @@
         showAlert("Text copied to clipboard!");
       }
 
+      function toggleDesc() {
+        const projectDescription = $(".projectDescription");
+        const toggleButton = $(".toggleButton");
+
+        projectDescription.slideToggle(() =>
+          toggleButton.find("i").toggleClass("fa fa-plus fa fa-minus")
+        );
+      }
+
       Telegram.WebApp.onEvent("themeChanged", function () {
         $("#theme_data").html(
           JSON.stringify(Telegram.WebApp.themeParams, null, 2)
@@ -330,18 +333,14 @@
       });
 
       $("body").css("visibility", "");
-      Telegram.WebApp.MainButton.setText("CLOSE WEBVIEW")
+      Telegram.WebApp.MainButton.setText("Generate")
         .show()
         .onClick(function () {
-          webviewClose();
+          generateOffer();
         });
 
       $(document).ready(function () {
         fetchOffers();
-
-        $("#generateBtn").click(function () {
-          generateOffer();
-        });
       });
     </script>
   </body>

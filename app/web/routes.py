@@ -71,7 +71,18 @@ async def get_offers(request: Request):
             Offer.project == project
         ))
 
-    return json_response({"ok": True, 'offers': offers})
+    return json_response(
+        {
+            "ok": True,
+            "project": {
+                "url": project.url,
+                "title": project.title,
+                "description": project.description,
+                "freelance_platform": project.freelance_platform,
+            },
+            'offers': offers
+        }
+    )
 
 
 async def parse_user(telegram_id: int):

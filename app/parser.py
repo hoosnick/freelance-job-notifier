@@ -157,7 +157,10 @@ async def get_kwork_projects(bot: Bot, config: Settings):
         )
 
         for dict_project in other_projects["response"]:
-            projects.append(types.Project(**dict_project))
+            # pydantic_core._pydantic_core.ValidationError: 1 validation error for Project
+            # date_confirm Input should be a valid integer
+            # [type=int_type, input_value=None, input_type=NoneType]
+            projects.append(types.Project(**dict_project))  # fix
 
     for project in projects:
         url = "https://kwork.ru/projects/" + str(project.id)
