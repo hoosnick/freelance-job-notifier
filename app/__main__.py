@@ -16,7 +16,7 @@ from app.bot.middlewares import RetryRequestMiddleware
 from app.config_reader import Settings
 from app.db.tables import PROJECT_TABLES
 from app.parser import get_kwork_projects, get_upwork_jobs
-from app.web.routes import create_offer, get_offers, home, get_project_detail
+from app.web.routes import create_offer, get_offers, home
 
 
 async def database_connection(config: Settings,  close=False, persist=True) -> None:
@@ -103,7 +103,6 @@ def main():
     app.router.add_get("/", home)
     app.router.add_post("/generate", create_offer)
     app.router.add_get("/offers", get_offers)
-    app.router.add_get('/project-detail', get_project_detail)
 
     SimpleRequestHandler(dispatcher=dp, bot=bot).register(app, path="/webhook")
     setup_application(app, dp, bot=bot)
