@@ -330,6 +330,9 @@
       function addOffer(offer) {
         const offerSection = $("#offerSection");
         const newOfferIndex = offerSection.children().length + 1;
+        offerSection.remove(
+          `<h5>There is no offer yet. Press the "Generate" button to generate one!</h5>`
+        );
         const newOffer = $(
           `<div class="card">
             <div class="index">${newOfferIndex}</div>
