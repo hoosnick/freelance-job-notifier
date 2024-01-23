@@ -44,9 +44,14 @@
         color: var(--tg-theme-link-color, #2678b6);
       }
 
+      h6 {
+        margin-top: 5px;
+        color: #000000;
+      }
+
       #generateBtn {
-        position: fixed;
-        display: block;
+        position: relative;
+        display: flex;
         width: 100%;
         font-size: 14px;
         padding: 12px 20px;
@@ -56,11 +61,20 @@
         color: var(--tg-theme-button-text-color, #ffffff);
         cursor: pointer;
         z-index: 9999;
+        align-items: center;
+        justify-content: center;
       }
+
       #generateBtn[disabled] {
         /*opacity: 0.6;*/
         cursor: auto;
         pointer-events: none;
+      }
+
+      #generateBtn.sticky {
+        position: fixed;
+        top: 0;
+        width: 100%;
       }
 
       button.close_btn {
@@ -75,6 +89,17 @@
         text-transform: uppercase;
       }
 
+      #projectDetail {
+        position: relative;
+        display: flex;
+        padding-top: 5px;
+        padding-right: 5px;
+        padding-left: 5px;
+        margin-bottom: 5px;
+        justify-content: center;
+        align-items: flex-start;
+      }
+
       #offerSection {
         padding-top: 50px;
         padding-right: 10px;
@@ -87,7 +112,7 @@
         align-items: flex-start;
       }
 
-      .card {
+      .card, .detail {
         background-color: #fff;
         padding: 20px;
         border-radius: 10px;
@@ -148,6 +173,20 @@
         cursor: pointer;
       }
 
+      .freelancePlatform {
+        position: absolute;
+        bottom: 5px;
+        right: 10px;
+        padding: 5px;
+        background: #00a534;
+        color: #fff;
+        font-size: 10px;
+        border: none;
+        outline: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
       #loadingText {
         text-align: center;
         color: var(--tg-theme-button-color, #50a8eb);
@@ -163,6 +202,8 @@
     </style>
   </head>
   <body style="visibility: hidden">
+    <div id="projectDetail"></div>
+
     <button id="generateBtn">Generate</button>
 
     <div id="offerSection"></div>
@@ -200,6 +241,27 @@
             },
             error: function () {
               showError("Error fetching offers.");
+            },
+          });
+        } else {
+          showError("Project ID not found in the URL.");
+        }
+      }
+
+      function fetchProjectDetail() {
+        const projectId = getProjectIdFromUrl();
+        if (projectId !== null) {
+          $.ajax(`/project-detail?id=${projectId}`, {
+            type: "GET",
+            success: function (data) {
+              if (data.ok) {
+                displayProjectDetail(data.project);
+              } else {
+                showError(data.err);
+              }
+            },
+            error: function () {
+              showError("Error fetching project detail");
             },
           });
         } else {
@@ -264,6 +326,18 @@
             );
           });
         }
+      }
+
+      function displayProjectDetail(project) {
+        const projectDetail = $("#projectDetail");
+        projectDetail.empty();
+
+        projectDetail.append(
+          `<div class="detail">
+            <h6>${project.title}</h6>
+            <div class="largeText">${project.description}</div>
+            <div class="freelancePlatform">${project.freelance_platform}</div>
+          </div>`);
       }
 
       function addOffer(offer) {
@@ -337,7 +411,22 @@
         });
 
       $(document).ready(function () {
+        fetchProjectDetail();
         fetchOffers();
+
+        window.onscroll = function () { scrollContent() };
+
+        var pdBtn = document.getElementById("projectDetail");
+        var sticky = pdBtn.offsetHeight + 50;
+        var btn = document.getElementById("generateBtn");
+
+        function scrollContent() {
+          if (window.pageYOffset > sticky) {
+            btn.classList.add("sticky");
+          } else {
+            btn.classList.remove("sticky");
+          }
+        }
 
         $("#generateBtn").click(function () {
           generateOffer();
