@@ -71,25 +71,18 @@ async def get_offers(request: Request):
             Offer.project == project
         ))
 
-    return json_response({"ok": True, 'offers': offers})
-
-
-async def get_project_detail(request: Request):
-    project_id = request.rel_url.query.get("id")
-    project = await Project.objects().get(Project.id == int(project_id))
-
-    if project is None:
-        return json_response({"ok": False, "err": "Project not found!"})
-
-    return json_response({
-        "ok": True,
-        "project": {
-            "url": project.url,
-            "title": project.title,
-            "description": project.description,
-            "freelance_platform": project.freelance_platform,
+    return json_response(
+        {
+            "ok": True,
+            "project": {
+                "url": project.url,
+                "title": project.title,
+                "description": project.description,
+                "freelance_platform": project.freelance_platform,
+            },
+            'offers': offers
         }
-    })
+    )
 
 
 async def parse_user(telegram_id: int):

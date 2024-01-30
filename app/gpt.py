@@ -33,4 +33,5 @@ async def generate_offer(project_description: str, lang: str) -> Dict[str, bool 
         )
         return {'ok': True, 'response': str(response)}
     except BaseException as e:
-        return {'ok': False, 'err': f"{e.__class__.__name__}: {e}"}
+        # TODO: Too Long Error Message Issue
+        return {'ok': False, 'err': f"{e.__class__.__name__}"}

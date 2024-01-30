@@ -10,7 +10,7 @@ from selectolax.lexbor import LexborHTMLParser as htmlp
 from app.bot.keyboards import apply_button
 from app.config_reader import Settings
 from app.db.tables import FreelancePlatform, Project
-from kwork import Kwork, types
+from kwork import Kwork
 
 TEMPLATES = {
     'KWORK': '💸 <b>{}</b>\n\n'
@@ -144,7 +144,7 @@ async def get_kwork_projects(bot: Bot, config: Settings):
     if not success:
         return await kwork.close()
 
-    projects = [types.Project(**pr) for pr in raw_projects["response"]]
+    projects = await get_project_data(raw_projects["response"])
 
     paging = raw_projects["paging"]
     pages = int((paging["pages"] + 1) / 2)
@@ -156,28 +156,27 @@ async def get_kwork_projects(bot: Bot, config: Settings):
             page=page, token=token
         )
 
-        for dict_project in other_projects["response"]:
-            projects.append(types.Project(**dict_project))
+        projects.extend(await get_project_data(other_projects["response"]))
 
     for project in projects:
-        url = "https://kwork.ru/projects/" + str(project.id)
+        url = "https://kwork.ru/projects/" + str(project.get("id"))
 
         kw_project = await Project.objects().get_or_create(
-            Project.url == url, {Project.title: project.title}
+            Project.url == url, {Project.title: project.get("title")}
         )
 
         if not kw_project._was_created:
             continue
 
-        desc = htmlp(project.description).text(separator='\n', strip=True)
+        desc = htmlp(project.get("description")).text(separator='\n', strip=True)
 
         kw_project.description = desc
         kw_project.freelance_platform = FreelancePlatform.KWORK
         await kw_project.save()
 
         text = TEMPLATES.get('KWORK').format(
-            html.quote(project.title), html.quote(desc[:3000]),
-            project.price, project.possible_price_limit
+            html.quote(project.get("title")), html.quote(desc[:3000]),
+            project.get("price"), project.get("possible_price_limit")
         )
 
         btn_data = {
@@ -199,3 +198,16 @@ async def get_kwork_projects(bot: Bot, config: Settings):
         await asyncio.sleep(random.choice([1, 2, 3]))
 
     await kwork.close()
+
+
+async def get_project_data(response: list) -> list:
+    result = []
+    for item in response:
+        result.append({
+            "id": item.get("id"),
+            "title": item.get("title"),
+            "description": item.get("description"),
+            "price": item.get("price"),
+            "possible_price_limit": item.get("possible_price_limit")
+        })
+    return result
