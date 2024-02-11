@@ -144,7 +144,19 @@ async def get_kwork_projects(bot: Bot, config: Settings):
     if not success:
         return await kwork.close()
 
-    projects = await get_project_data(raw_projects["response"])
+    def get_project_data(response: list) -> list:
+        result = []
+        for item in response:
+            result.append({
+                "id": item.get("id"),
+                "title": item.get("title"),
+                "description": item.get("description"),
+                "price": item.get("price"),
+                "possible_price_limit": item.get("possible_price_limit")
+            })
+        return result
+
+    projects = get_project_data(raw_projects["response"])
 
     paging = raw_projects["paging"]
     pages = int((paging["pages"] + 1) / 2)
@@ -156,7 +168,7 @@ async def get_kwork_projects(bot: Bot, config: Settings):
             page=page, token=token
         )
 
-        projects.extend(await get_project_data(other_projects["response"]))
+        projects.extend(get_project_data(other_projects["response"]))
 
     for project in projects:
         url = "https://kwork.ru/projects/" + str(project.get("id"))
@@ -198,16 +210,3 @@ async def get_kwork_projects(bot: Bot, config: Settings):
         await asyncio.sleep(random.choice([1, 2, 3]))
 
     await kwork.close()
-
-
-async def get_project_data(response: list) -> list:
-    result = []
-    for item in response:
-        result.append({
-            "id": item.get("id"),
-            "title": item.get("title"),
-            "description": item.get("description"),
-            "price": item.get("price"),
-            "possible_price_limit": item.get("possible_price_limit")
-        })
-    return result
