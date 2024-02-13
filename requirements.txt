@@ -3,8 +3,8 @@ aiohttp>=3.9.0
 aiohttp[speedups]
 aiogram==3.3.0
 feedparser
-g4f==0.2.0.2
-kwork
+g4f
+kwork @ git+https://github.com/hoosnick/pykwork@9087c98ba9677168de0d27ba1c9d319af3af542d
 python-dotenv
 pydantic-settings
 piccolo[sqlite]
