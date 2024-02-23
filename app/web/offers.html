@@ -163,13 +163,16 @@
       var initDataUnsafe = Telegram.WebApp.initDataUnsafe || {};
 
       function getProjectIdFromUrl() {
-        const urlParams = new URLSearchParams(window.location.search);
-        return parseInt(urlParams.get("project")) || null;
+        // Extract integer part using regular expression
+        var project_id = initDataUnsafe.start_param.match(/^\d+/);
+        return project_id ? parseInt(project_id[0]) : null;
       }
 
       function getLangFromUrl() {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get("lang");
+        // Extract language code using regular expression
+        var language_code =
+          initDataUnsafe.start_param.match(/^[0-9]+_([a-zA-Z]+)/);
+        return language_code ? language_code[1] : "en";
       }
 
       function fetchOffers() {

@@ -4,43 +4,10 @@ from aiogram import F, Router
 from aiogram.filters import Command, CommandObject, CommandStart
 from aiogram.types import Message
 
-from app.bot.keyboards import apply_button
 from app.config_reader import Settings
-from app.db.tables import FreelancePlatform, PremiumUser, Project
+from app.db.tables import PremiumUser
 
 router = Router()
-
-
-@router.message(CommandStart(
-    deep_link=True,
-    magic=F.args.regexp(re.compile(r'project_(\d+)'))
-))
-async def about_project(m: Message, command: CommandObject, config: Settings):
-    try:
-        project_id = int(command.args.split('_')[-1])
-    except ValueError as v:
-        return await m.answer(str(v))
-
-    project = await Project.objects().get(Project.id == project_id)
-    if project is None:
-        return await m.answer("Project not found!")
-
-    lang = 'ru' if project.freelance_platform == FreelancePlatform.KWORK else 'en'
-    apply_btn = 'Предложить услугу' if lang == 'ru' else 'Click to apply'
-    project_desc = f"<b>{project.title}</b>\n\n<i>{project.description}</i>"
-
-    await m.answer(
-        text=project_desc,
-        reply_markup=apply_button(
-            apply_btn, project.url,
-            {
-                'url': config.app_base_url,
-                'id': project.id,
-                'lang': lang,
-                'group_link': config.tg_group_link
-            }
-        )
-    )
 
 
 @router.message(CommandStart(
@@ -69,8 +36,8 @@ async def new_premium_user(m: Message, command: CommandObject):
 
 
 @router.message(CommandStart())
-async def command_start(m: Message):
-    await m.answer("Hi!")
+async def command_start(m: Message, config: Settings):
+    await m.answer("Telegram Group: {}".format(config.tg_group_link))
 
 
 @router.message(Command("promo"))

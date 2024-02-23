@@ -103,7 +103,6 @@ async def get_upwork_jobs(bot: Bot, config: Settings):
             )
 
             btn_data = {
-                'url': config.app_base_url,
                 'id': project.id,
                 'lang': 'en',
                 'username': config.bot_username
@@ -115,8 +114,7 @@ async def get_upwork_jobs(bot: Bot, config: Settings):
                 reply_markup=apply_button(
                     text="Click to apply",
                     url=feed.link,
-                    data=btn_data,
-                    in_group=True
+                    data=btn_data
                 )
             )
 
@@ -171,16 +169,18 @@ async def get_kwork_projects(bot: Bot, config: Settings):
         projects.extend(get_project_data(other_projects["response"]))
 
     for project in projects:
-        url = "https://kwork.ru/projects/" + str(project.get("id"))
+        kw_project_url = "https://kwork.ru/projects/" + str(project.get("id"))
 
         kw_project = await Project.objects().get_or_create(
-            Project.url == url, {Project.title: project.get("title")}
+            Project.url == kw_project_url, {
+                Project.title: project.get("title")}
         )
 
         if not kw_project._was_created:
             continue
 
-        desc = htmlp(project.get("description")).text(separator='\n', strip=True)
+        desc = htmlp(project.get("description")).text(
+            separator='\n', strip=True)
 
         kw_project.description = desc
         kw_project.freelance_platform = FreelancePlatform.KWORK
@@ -192,7 +192,6 @@ async def get_kwork_projects(bot: Bot, config: Settings):
         )
 
         btn_data = {
-            'url': config.app_base_url,
             'id': kw_project.id,
             'lang': 'ru',
             'username': config.bot_username
@@ -202,8 +201,9 @@ async def get_kwork_projects(bot: Bot, config: Settings):
             chat_id=config.tg_group, text=text,
             message_thread_id=config.tg_topic_id,
             reply_markup=apply_button(
-                text="Предложить услугу", url=url,
-                data=btn_data, in_group=True
+                text="Предложить услугу",
+                url=kw_project_url,
+                data=btn_data
             )
         )
 

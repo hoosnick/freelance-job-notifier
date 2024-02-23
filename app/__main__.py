@@ -4,8 +4,9 @@ import sys
 from aiogram import Bot, Dispatcher
 from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram.enums import ParseMode
-from aiogram.webhook.aiohttp_server import (SimpleRequestHandler,
-                                            setup_application)
+from aiogram.webhook.aiohttp_server import (
+    SimpleRequestHandler, setup_application
+)
 from aiohttp.web import run_app
 from aiohttp.web_app import Application
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
@@ -19,7 +20,11 @@ from app.parser import get_kwork_projects, get_upwork_jobs
 from app.web.routes import create_offer, get_offers, home
 
 
-async def database_connection(config: Settings,  close=False, persist=True) -> None:
+async def database_connection(
+    config: Settings,
+    close=False,
+    persist=True
+) -> None:
     db = engine_finder(config.piccolo_conf)
 
     if db.engine_type == 'sqlite':
@@ -39,15 +44,24 @@ async def database_connection(config: Settings,  close=False, persist=True) -> N
         await db.start_connection_pool()
 
 
-async def on_startup(bot: Bot, base_url: str, scheduler: AsyncIOScheduler, config: Settings):
+async def on_startup(
+    bot: Bot,
+    base_url: str,
+    scheduler: AsyncIOScheduler,
+    config: Settings
+):
     await bot.me()
 
+    webhook_url = "{url}/webhook".format(url=base_url)
+    webhook_info = await bot.get_webhook_info()
+    if webhook_info.url != webhook_url:
+        await bot.delete_webhook(drop_pending_updates=True)
+
     config.bot_username = bot._me.username
-    print(config.bot_username)
 
     await database_connection(config, persist=True)
 
-    await bot.set_webhook(f"{base_url}/webhook")
+    await bot.set_webhook(webhook_url)
 
     scheduler.add_job(
         get_upwork_jobs, 'interval', minutes=15,
@@ -60,10 +74,11 @@ async def on_startup(bot: Bot, base_url: str, scheduler: AsyncIOScheduler, confi
     scheduler.start()
 
 
-async def on_shutdown(bot: Bot, config: Settings, scheduler: AsyncIOScheduler):
+async def on_shutdown(
+    config: Settings,
+    scheduler: AsyncIOScheduler
+):
     await database_connection(config, close=True)
-
-    await bot.delete_webhook(drop_pending_updates=True)
 
     scheduler.shutdown(wait=False)
 
@@ -107,7 +122,7 @@ def main():
     SimpleRequestHandler(dispatcher=dp, bot=bot).register(app, path="/webhook")
     setup_application(app, dp, bot=bot)
 
-    run_app(app, host="127.0.0.1", port=8081)
+    run_app(app, host=config.app_host, port=config.app_port)
 
 
 if __name__ == "__main__":
