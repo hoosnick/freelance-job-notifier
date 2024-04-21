@@ -44,6 +44,6 @@ db_path = os.path.join("app", "db", "database")
 if not os.path.exists(db_path):
     os.makedirs(db_path)
 
-DB = SQLiteEngine("%s\\projects.db" % db_path)
+DB = SQLiteEngine("%s/projects.db" % db_path)
 
 APP_REGISTRY = AppRegistry(apps=["app.db.piccolo_app"])
