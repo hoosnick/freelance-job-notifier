@@ -12,12 +12,12 @@ from app.config_reader import DB
 
 def generate_promo_code(length=6):
     characters = string.ascii_uppercase + string.digits
-    return ''.join(random.choices(characters, k=length))
+    return "".join(random.choices(characters, k=length))
 
 
 class FreelancePlatform(str, Enum):
-    KWORK = 'kwork'
-    UPWORK = 'upwork'
+    KWORK = "kwork"
+    UPWORK = "upwork"
 
 
 class Project(Table, db=DB):

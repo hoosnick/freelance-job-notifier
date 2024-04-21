@@ -13,21 +13,20 @@ from app.db.tables import FreelancePlatform, Project
 from kwork import Kwork
 
 TEMPLATES = {
-    'KWORK': '💸 <b>{}</b>\n\n'
-             '<i>{}</i>\n\n'
-             'Желаемый бюджет: <code>{:,} ₽</code>\n'
-             'Допустимый: до <code>{:,} ₽</code>',
-
-    'UPWORK': "☘️ <b>{title}</b>\n\n"
-              "<i>{description}</i>\n\n"
-              "Budget: <code>{budget}</code>\n"
-              "Hourly Range: {hourly_range}\n"
-              "Category: {category}\n"
-              "Country: {country}"
+    "KWORK": "💸 <b>{}</b>\n\n"
+            "<i>{}</i>\n\n"
+            "Желаемый бюджет: <code>{:,} ₽</code>\n"
+            "Допустимый: до <code>{:,} ₽</code>",
+    "UPWORK": "☘️ <b>{title}</b>\n\n"
+            "<i>{description}</i>\n\n"
+            "Budget: <code>{budget}</code>\n"
+            "Hourly Range: {hourly_range}\n"
+            "Category: {category}\n"
+            "Country: {country}",
 }
 
 
-async def get_upwork_jobs(bot: Bot, config: Settings):
+async def get_upwork_projects(bot: Bot, config: Settings):
     url = "https://www.upwork.com/ab/feed/jobs/rss"
     params = {
         "q": config.up_question,
@@ -37,19 +36,19 @@ async def get_upwork_jobs(bot: Bot, config: Settings):
         "api_params": "1",
         "securityToken": config.up_securitytoken,
         "userUid": config.up_useruid,
-        "orgUid": config.up_orguid
+        "orgUid": config.up_orguid,
     }
 
     def parse_metadata(html: str) -> dict:
         parsed_data = {}
 
         patterns = {
-            'hourly_range': r'Hourly Range:(.*?)(?:Posted On:|$)',
-            'budget': r'Budget:(.*?)(?:Posted On:|$)',
-            'posted': r'Posted On:(.*?)(?:Category:|$)',
-            'category': r'Category:(.*?)(?:Skills:|$)',
-            'skills': r'Skills:(.*?)(?:Country:|$)',
-            'country': r'Country:(.*?)(?:click|$)'
+            "hourly_range": r"Hourly Range:(.*?)(?:Posted On:|$)",
+            "budget": r"Budget:(.*?)(?:Posted On:|$)",
+            "posted": r"Posted On:(.*?)(?:Category:|$)",
+            "category": r"Category:(.*?)(?:Skills:|$)",
+            "skills": r"Skills:(.*?)(?:Country:|$)",
+            "country": r"Country:(.*?)(?:click|$)",
         }
 
         # Find the earliest occurring metadata pattern
@@ -60,7 +59,7 @@ async def get_upwork_jobs(bot: Bot, config: Settings):
                 earliest_position = match.start()
 
         # Extract description based on the earliest pattern
-        parsed_data['desc'] = html[:earliest_position].strip()
+        parsed_data["desc"] = html[:earliest_position].strip()
 
         # Extract other metadata
         for key, pattern in patterns.items():
@@ -86,36 +85,31 @@ async def get_upwork_jobs(bot: Bot, config: Settings):
                 continue
 
             data = parse_metadata(
-                htmlp(feed.description).text(separator='', strip=False)
+                htmlp(feed.description).text(separator="", strip=False)
             )
 
-            project.description = data['desc']
+            project.description = data["desc"]
             project.freelance_platform = FreelancePlatform.UPWORK
             await project.save()
 
-            text = TEMPLATES.get('UPWORK').format(
+            text = TEMPLATES.get("UPWORK").format(
                 title=html.quote(feed.title),
-                description=html.quote(data['desc'][:3000]),
-                budget=data['budget'],
-                hourly_range=data['hourly_range'],
-                category=data['category'],
-                country=data['country'],
+                description=html.quote(data["desc"][:3000]),
+                budget=data["budget"],
+                hourly_range=data["hourly_range"],
+                category=data["category"],
+                country=data["country"],
             )
 
-            btn_data = {
-                'id': project.id,
-                'lang': 'en',
-                'username': config.bot_username
-            }
+            btn_data = {"id": project.id, "lang": "en", "username": config.bot_username}
 
             await bot.send_message(
-                chat_id=config.tg_group, text=text,
+                chat_id=config.tg_group,
+                text=text,
                 message_thread_id=config.tg_topic_id,
                 reply_markup=apply_button(
-                    text="Click to apply",
-                    url=feed.link,
-                    data=btn_data
-                )
+                    text="Click to apply", url=feed.link, data=btn_data
+                ),
             )
 
             await asyncio.sleep(random.choice([1, 2, 3]))
@@ -125,7 +119,7 @@ async def get_kwork_projects(bot: Bot, config: Settings):
     kwork = Kwork(
         login=config.kw_login,
         password=config.kw_password,
-        phone_last=config.kw_phone_last
+        phone_last=config.kw_phone_last,
     )
     token = await kwork.token
 
@@ -135,7 +129,8 @@ async def get_kwork_projects(bot: Bot, config: Settings):
         method="post",
         api_method="projects",
         categories=categories_ids,
-        page=1, token=token
+        page=1,
+        token=token,
     )
 
     success = raw_projects["success"]
@@ -145,13 +140,15 @@ async def get_kwork_projects(bot: Bot, config: Settings):
     def get_project_data(response: list) -> list:
         result = []
         for item in response:
-            result.append({
-                "id": item.get("id"),
-                "title": item.get("title"),
-                "description": item.get("description"),
-                "price": item.get("price"),
-                "possible_price_limit": item.get("possible_price_limit")
-            })
+            result.append(
+                {
+                    "id": item.get("id"),
+                    "title": item.get("title"),
+                    "description": item.get("description"),
+                    "price": item.get("price"),
+                    "possible_price_limit": item.get("possible_price_limit"),
+                }
+            )
         return result
 
     projects = get_project_data(raw_projects["response"])
@@ -161,9 +158,11 @@ async def get_kwork_projects(bot: Bot, config: Settings):
 
     for page in range(2, pages):
         other_projects = await kwork.api_request(
-            method="post", api_method="projects",
+            method="post",
+            api_method="projects",
             categories=categories_ids,
-            page=page, token=token
+            page=page,
+            token=token,
         )
 
         projects.extend(get_project_data(other_projects["response"]))
@@ -172,39 +171,34 @@ async def get_kwork_projects(bot: Bot, config: Settings):
         kw_project_url = "https://kwork.ru/projects/" + str(project.get("id"))
 
         kw_project = await Project.objects().get_or_create(
-            Project.url == kw_project_url, {
-                Project.title: project.get("title")}
+            Project.url == kw_project_url, {Project.title: project.get("title")}
         )
 
         if not kw_project._was_created:
             continue
 
-        desc = htmlp(project.get("description")).text(
-            separator='\n', strip=True)
+        desc = htmlp(project.get("description")).text(separator="\n", strip=True)
 
         kw_project.description = desc
         kw_project.freelance_platform = FreelancePlatform.KWORK
         await kw_project.save()
 
-        text = TEMPLATES.get('KWORK').format(
-            html.quote(project.get("title")), html.quote(desc[:3000]),
-            project.get("price"), project.get("possible_price_limit")
+        text = TEMPLATES.get("KWORK").format(
+            html.quote(project.get("title")),
+            html.quote(desc[:3000]),
+            project.get("price"),
+            project.get("possible_price_limit"),
         )
 
-        btn_data = {
-            'id': kw_project.id,
-            'lang': 'ru',
-            'username': config.bot_username
-        }
+        btn_data = {"id": kw_project.id, "lang": "ru", "username": config.bot_username}
 
         await bot.send_message(
-            chat_id=config.tg_group, text=text,
+            chat_id=config.tg_group,
+            text=text,
             message_thread_id=config.tg_topic_id,
             reply_markup=apply_button(
-                text="Предложить услугу",
-                url=kw_project_url,
-                data=btn_data
-            )
+                text="Предложить услугу", url=kw_project_url, data=btn_data
+            ),
         )
 
         await asyncio.sleep(random.choice([1, 2, 3]))

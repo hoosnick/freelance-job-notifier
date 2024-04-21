@@ -4,9 +4,7 @@ import sys
 from aiogram import Bot, Dispatcher
 from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram.enums import ParseMode
-from aiogram.webhook.aiohttp_server import (
-    SimpleRequestHandler, setup_application
-)
+from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_application
 from aiohttp.web import run_app
 from aiohttp.web_app import Application
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
@@ -16,18 +14,14 @@ from app.bot.handlers import router
 from app.bot.middlewares import RetryRequestMiddleware
 from app.config_reader import Settings
 from app.db.tables import PROJECT_TABLES
-from app.parser import get_kwork_projects, get_upwork_jobs
+from app.parser import get_kwork_projects, get_upwork_projects
 from app.web.routes import create_offer, get_offers, home
 
 
-async def database_connection(
-    config: Settings,
-    close=False,
-    persist=True
-) -> None:
+async def database_connection(config: Settings, close=False, persist=True) -> None:
     db = engine_finder(config.piccolo_conf)
 
-    if db.engine_type == 'sqlite':
+    if db.engine_type == "sqlite":
         if close:
             return
 
@@ -45,10 +39,7 @@ async def database_connection(
 
 
 async def on_startup(
-    bot: Bot,
-    base_url: str,
-    scheduler: AsyncIOScheduler,
-    config: Settings
+    bot: Bot, base_url: str, scheduler: AsyncIOScheduler, config: Settings
 ):
     await bot.me()
 
@@ -63,21 +54,23 @@ async def on_startup(
 
     await bot.set_webhook(webhook_url)
 
-    scheduler.add_job(
-        get_upwork_jobs, 'interval', minutes=15,
-        kwargs={'bot': bot, 'config': config}
-    )
-    scheduler.add_job(
-        get_kwork_projects, 'interval', minutes=10,
-        kwargs={'bot': bot, 'config': config}
-    )
+    jobs = [
+        {"func": get_upwork_projects, "minutes": 15},
+        {"fn": get_kwork_projects, "minutes": 10},
+    ]
+
+    for job in jobs:
+        scheduler.add_job(
+            func=job.get("func"),
+            trigger="interval",
+            minutes=job.get("minutes"),
+            kwargs={"bot": bot, "config": config},
+        )
+
     scheduler.start()
 
 
-async def on_shutdown(
-    config: Settings,
-    scheduler: AsyncIOScheduler
-):
+async def on_shutdown(config: Settings, scheduler: AsyncIOScheduler):
     await database_connection(config, close=True)
 
     scheduler.shutdown(wait=False)
@@ -91,7 +84,7 @@ def create_bot(config: Settings) -> Bot:
         token=config.tg_token,
         parse_mode=ParseMode.HTML,
         session=session,
-        disable_web_page_preview=True
+        disable_web_page_preview=True,
     )
 
 
@@ -110,7 +103,7 @@ def main():
     dp.include_router(router)
 
     scheduler = AsyncIOScheduler()
-    dp['scheduler'] = scheduler
+    dp["scheduler"] = scheduler
 
     app = Application()
     app["bot"] = bot

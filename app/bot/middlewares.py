@@ -3,11 +3,17 @@ import logging
 from typing import Final
 
 from aiogram import Bot
-from aiogram.client.session.middlewares.base import (BaseRequestMiddleware,
-                                                     NextRequestMiddlewareType)
+from aiogram.client.session.middlewares.base import (
+    BaseRequestMiddleware,
+    NextRequestMiddlewareType,
+)
 from aiogram.dispatcher.dispatcher import DEFAULT_BACKOFF_CONFIG
-from aiogram.exceptions import (RestartingTelegram, TelegramNetworkError,
-                                TelegramRetryAfter, TelegramServerError)
+from aiogram.exceptions import (
+    RestartingTelegram,
+    TelegramNetworkError,
+    TelegramRetryAfter,
+    TelegramServerError,
+)
 from aiogram.methods import AnswerCallbackQuery, Response, TelegramMethod
 from aiogram.methods.base import TelegramType
 from aiogram.utils.backoff import Backoff, BackoffConfig
