@@ -56,7 +56,7 @@ async def on_startup(
 
     jobs = [
         {"func": get_upwork_projects, "minutes": 15},
-        {"fn": get_kwork_projects, "minutes": 10},
+        {"func": get_kwork_projects, "minutes": 10},
     ]
 
     for job in jobs:
