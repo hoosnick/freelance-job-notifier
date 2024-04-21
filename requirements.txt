@@ -1,12 +1,12 @@
-apscheduler
-aiohttp>=3.9.0
+APScheduler==3.10.4
+aiohttp==3.9.3
 aiohttp[speedups]
 aiogram==3.3.0
-feedparser
-g4f
+feedparser==6.0.11
+g4f==0.3.0.3
 kwork @ git+https://github.com/hoosnick/pykwork@9087c98ba9677168de0d27ba1c9d319af3af542d
-python-dotenv
-pydantic-settings
+python-dotenv==1.0.1
+pydantic-settings==2.2.1
 piccolo[sqlite]
 piccolo[orjson]
-selectolax
+selectolax==0.3.20
