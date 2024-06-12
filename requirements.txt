@@ -3,7 +3,7 @@ aiohttp==3.9.4
 aiohttp[speedups]
 aiogram==3.3.0
 feedparser==6.0.11
-g4f==0.3.1.9
+g4f==0.3.2.0
 kwork @ git+https://github.com/hoosnick/pykwork@9087c98ba9677168de0d27ba1c9d319af3af542d
 python-dotenv==1.0.1
 pydantic-settings==2.2.1
